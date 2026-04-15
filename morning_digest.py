@@ -32,6 +32,9 @@ async def fetch_weather(session):
     async with session.get(url, params=params) as r:
         data = await r.json()
     
+    if "coord" not in data:
+        raise ValueError(f"OpenWeather error: {data}")
+    
     url_uvi = "https://api.openweathermap.org/data/2.5/uvi"
     coords = data["coord"]
     params_uvi = {
